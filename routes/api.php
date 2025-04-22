@@ -23,6 +23,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // routes/web.php o routes/api.php si lo haces como API
 use App\Http\Controllers\AuthController;
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('me', [AuthController::class, 'me']);
+});
+
+use App\Http\Controllers\ConversacionesController;
+
+Route::middleware('auth')->group(function () {
+    
+    Route::get('conversaciones', [ConversacionesController::class, 'index']);
+    Route::post('conversaciones', [ConversacionesController::class, 'store']);
+    Route::put('conversaciones/{id}', [ConversacionesController::class, 'update']);
+    Route::delete('conversaciones/{id}', [ConversacionesController::class, 'destroy']);
+
+    Route::post('conversaciones/{conversacion_id}/comentarios', [ComentariosController::class, 'store']);
+    Route::put('comentarios/{id}', [ComentariosController::class, 'update']);
+    Route::delete('comentarios/{id}', [ComentariosController::class, 'destroy']);
+});
