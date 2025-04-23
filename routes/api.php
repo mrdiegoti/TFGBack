@@ -33,7 +33,7 @@ Route::middleware('auth:api')->group(function () {
 
 use App\Http\Controllers\ConversacionesController;
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:api')->group(function () {
     
     Route::get('conversaciones', [ConversacionesController::class, 'index']);
     Route::post('conversaciones', [ConversacionesController::class, 'store']);

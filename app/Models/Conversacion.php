@@ -9,11 +9,13 @@ class Conversacion extends Model
 {
     use HasFactory;
 
+    protected $table = 'conversaciones';
+
     protected $fillable = [
         'titulo', 'descripcion',
     ];
 
-    public function commentarios()
+    public function comentarios()
     {
         return $this->hasMany(Comentario::class);
     }
