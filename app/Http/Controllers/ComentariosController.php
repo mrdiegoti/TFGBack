@@ -61,4 +61,15 @@ class ComentariosController extends Controller
         $comentario->delete();
         return response()->json(['message' => 'Comentario eliminado']);
     }
+
+    public function index($conversacion_id)
+{
+    $comentarios = Comentario::where('conversacion_id', $conversacion_id)
+                    ->with('user') // si quieres traer el autor del comentario
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+    return response()->json($comentarios);
+}
+
 }

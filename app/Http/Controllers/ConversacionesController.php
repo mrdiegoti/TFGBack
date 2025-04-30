@@ -82,4 +82,11 @@ class ConversacionesController extends Controller
         $conversacion->delete();
         return response()->json(['message' => 'Conversación eliminada']);
     }
+
+    public function show($id)
+{
+    $conversacion = Conversacion::with('comentarios.user')->findOrFail($id);
+    return response()->json($conversacion);
+}
+
 }

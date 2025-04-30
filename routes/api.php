@@ -36,6 +36,7 @@ use App\Http\Controllers\ConversacionesController;
 Route::middleware('auth:api')->group(function () {
     
     Route::get('conversaciones', [ConversacionesController::class, 'index']);
+    Route::get('conversaciones/{id}', [ConversacionesController::class, 'show']); // ✅ Añadida
     Route::post('conversaciones', [ConversacionesController::class, 'store']);
     Route::put('conversaciones/{id}', [ConversacionesController::class, 'update']);
     Route::delete('conversaciones/{id}', [ConversacionesController::class, 'destroy']);
@@ -43,4 +44,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('conversaciones/{conversacion_id}/comentarios', [ComentariosController::class, 'store']);
     Route::put('comentarios/{id}', [ComentariosController::class, 'update']);
     Route::delete('comentarios/{id}', [ComentariosController::class, 'destroy']);
+    Route::get('conversaciones/{conversacion_id}/comentarios', [ComentariosController::class, 'index']);
 });
+
