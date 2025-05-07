@@ -85,8 +85,12 @@ class ConversacionesController extends Controller
 
     public function show($id)
 {
-    $conversacion = Conversacion::with('comentarios.user')->findOrFail($id);
+    $conversacion = Conversacion::with(['comentarios' => function ($query) {
+        $query->with('user');
+    }])->findOrFail($id);
+
     return response()->json($conversacion);
 }
+
 
 }
