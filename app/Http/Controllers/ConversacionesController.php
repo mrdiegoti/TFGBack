@@ -18,6 +18,7 @@ class ConversacionesController extends Controller
     public function index()
     {
         $conversaciones = Conversacion::with('comentarios')->get(); // Cargar conversaciones con sus comentarios
+        $conversaciones = Conversacion::with('user')->get();
         return response()->json($conversaciones);
     }
 
