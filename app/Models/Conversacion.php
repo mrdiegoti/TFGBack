@@ -12,7 +12,7 @@ class Conversacion extends Model
     protected $table = 'conversaciones';
 
     protected $fillable = [
-        'titulo', 'descripcion',
+        'titulo', 'descripcion', 'user_id',
     ];
 
     public function comentarios()
