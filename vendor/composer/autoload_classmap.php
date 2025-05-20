@@ -19,6 +19,7 @@ return array(
     'App\\Http\\Controllers\\ComentariosController' => $baseDir . '/app/Http/Controllers/ComentariosController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\ConversacionesController' => $baseDir . '/app/Http/Controllers/ConversacionesController.php',
+    'App\\Http\\Controllers\\NbaController' => $baseDir . '/app/Http/Controllers/NbaController.php',
     'App\\Http\\Controllers\\UsersController' => $baseDir . '/app/Http/Controllers/UsersController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',

@@ -563,6 +563,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Controllers\\ComentariosController' => __DIR__ . '/../..' . '/app/Http/Controllers/ComentariosController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\ConversacionesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConversacionesController.php',
+        'App\\Http\\Controllers\\NbaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NbaController.php',
         'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

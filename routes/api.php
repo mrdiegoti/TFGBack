@@ -47,3 +47,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('conversaciones/{conversacion_id}/comentarios', [ComentariosController::class, 'index']);
 });
 
+use App\Http\Controllers\NbaController;
+
+Route::get('/nba/schedule/{date}', [NbaController::class, 'getSchedule']);
+Route::get('/nba/calendario', [NBAController::class, 'calendario']);
+
+
