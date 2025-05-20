@@ -34,7 +34,7 @@ Route::middleware('auth:api')->group(function () {
 use App\Http\Controllers\ConversacionesController;
 
 Route::middleware('auth:api')->group(function () {
-    
+
     Route::get('conversaciones', [ConversacionesController::class, 'index']);
     Route::get('conversaciones/{id}', [ConversacionesController::class, 'show']);
     Route::post('conversaciones', [ConversacionesController::class, 'store']);
@@ -50,6 +50,6 @@ Route::middleware('auth:api')->group(function () {
 use App\Http\Controllers\NbaController;
 
 Route::get('/nba/schedule/{date}', [NbaController::class, 'getSchedule']);
-Route::get('/nba/calendario', [NBAController::class, 'calendario']);
+Route::get('/nba/calendario', [NbaController::class, 'calendario']);
 
 

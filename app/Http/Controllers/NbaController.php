@@ -9,18 +9,30 @@ class NbaController extends Controller
 {
     public function getSchedule($date)
     {
-        $apiKey = 'wfVIBOSY7GR3c12XXhUnzewMqMMr3Skgitqkqafh';
-        $url = "https://api.sportradar.us/nba/trial/v8/en/games/{$date}/schedule.json?api_key={$apiKey}";
+        try {
+            $formattedDate = str_replace('-', '/', $date);
+            $apiKey = env('SPORTRADAR_API_KEY');
+            $url = "https://api.sportradar.us/nba/trial/v8/en/games/{$formattedDate}/schedule.json?api_key={$apiKey}";
 
-        $response = Http::get($url);
+            $response = Http::get($url);
 
-        // Puedes añadir control de errores si quieres
-        if ($response->successful()) {
-            return response()->json($response->json());
-        } else {
-            return response()->json(['error' => 'Error al obtener los datos'], $response->status());
+            if ($response->successful()) {
+                return response()->json($response->json());
+            } else {
+                return response()->json([
+                    'error' => 'Error desde Sportradar',
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Excepción al conectar con Sportradar',
+                'message' => $e->getMessage()
+            ], 503);
         }
     }
+
 
     public function calendario(Request $request)
 {
