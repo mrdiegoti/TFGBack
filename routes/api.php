@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForosController;
 use App\Http\Controllers\ComentariosController;
+use App\Http\Controllers\ConversacionesController;
+use App\Http\Controllers\NbaController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// routes/web.php o routes/api.php si lo haces como API
-use App\Http\Controllers\AuthController;
-
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
@@ -31,7 +31,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
 });
 
-use App\Http\Controllers\ConversacionesController;
 
 Route::middleware('auth:api')->group(function () {
 
@@ -47,9 +46,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('conversaciones/{conversacion_id}/comentarios', [ComentariosController::class, 'index']);
 });
 
-use App\Http\Controllers\NbaController;
 
 Route::get('/nba/schedule/{date}', [NbaController::class, 'getSchedule']);
 Route::get('/nba/calendario', [NbaController::class, 'calendario']);
-
-
+Route::get('/nba/game/{id}', [NbaController::class, 'getGameDetail']);
