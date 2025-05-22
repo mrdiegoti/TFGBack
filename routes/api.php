@@ -42,4 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/games/{id}/comments', [GameCommentController::class, 'store']);
     Route::put('/games/comments/{commentId}', [GameCommentController::class, 'update']);
     Route::delete('/games/comments/{commentId}', [GameCommentController::class, 'destroy']);
+
+    Route::get('/nba/playoffs', [NbaController::class, 'playoffsBracket']);
+
 });

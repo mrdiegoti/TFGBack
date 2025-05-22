@@ -186,4 +186,38 @@ class NbaController extends Controller
             ], 503);
         }
     }
+
+    public function playoffsBracket()
+{
+    try {
+        $seasonId = 'fd56e5b1-c3f0-4d2d-a06d-f1bf0552b611'; // o 2024 si estás buscando la temporada actual
+        $apiKey = env('SPORTRADAR_API_KEY');
+        
+        
+        $url = "https://api.sportradar.us/nba/trial/v8/en/seasons/{$seasonId}/POSTSEASON/schedule.json";
+        
+        $response = Http::get($url, [
+            'api_key' => $apiKey
+        ]);
+        log::info('API Key: ' . $response);
+        
+        if (!$response->successful()) {
+            return response()->json([
+                'error' => 'No se pudo obtener el calendario de playoffs',
+                'debug' => $response->body()
+            ], 500);
+        }
+
+        return response()->json($response->json());
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => 'Excepción capturada',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+
 }
