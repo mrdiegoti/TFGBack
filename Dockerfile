@@ -24,7 +24,8 @@ WORKDIR /var/www/html
 COPY . .
 
 # Instalamos las dependencias de Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN git config --global --add safe.directory /var/www/html \
+ && composer install --no-dev --optimize-autoloader
 
 # Exponemos el puerto en el que Laravel escuchará
 EXPOSE 8000
