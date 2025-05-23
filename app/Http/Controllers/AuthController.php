@@ -34,6 +34,7 @@ class AuthController extends Controller
             'message' => 'Usuario registrado correctamente',
             'user' => $user,
             'token' => $token,
+            'role_id' => $user->role_id,
         ]);
     }
 

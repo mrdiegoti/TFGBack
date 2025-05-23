@@ -49,4 +49,32 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/nba/standings', [NbaStatsController::class, 'standings']);
     Route::get('nba/team/{teamId}/players-stats', [NbaStatsController::class, 'teamStats'])
     ->where('teamId', '.*');
+
+
+
 });
+
+use App\Http\Controllers\AdminController;
+
+Route::middleware(['jwt.auth', 'isAdmin'])->group(function () {
+    Route::get('/admin/users', [AdminController::class, 'getUsers']);
+    Route::post('/admin/users', [AdminController::class, 'createUser']);
+    Route::put('/admin/users/{id}', [AdminController::class, 'updateUser']);
+    Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser']);
+
+    Route::get('/admin/conversations', [AdminController::class, 'getConversations']);
+    Route::post('/admin/conversations', [AdminController::class, 'createConversation']);
+    Route::put('/admin/conversations/{id}', [AdminController::class, 'updateConversation']);
+    Route::delete('/admin/conversations/{id}', [AdminController::class, 'deleteConversation']);
+
+    Route::get('/admin/comments', [AdminController::class, 'getComments']);
+    Route::post('/admin/comments', [AdminController::class, 'createComment']);
+    Route::put('/admin/comments/{id}', [AdminController::class, 'updateComment']);
+    Route::delete('/admin/comments/{id}', [AdminController::class, 'deleteComment']);
+
+    Route::get('/admin/game-comments', [AdminController::class, 'getGameComments']);
+    Route::post('/admin/game-comments', [AdminController::class, 'createGameComment']);
+    Route::put('/admin/game-comments/{id}', [AdminController::class, 'updateGameComment']);
+    Route::delete('/admin/game-comments/{id}', [AdminController::class, 'deleteGameComment']);
+});
+
