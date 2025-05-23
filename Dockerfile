@@ -21,18 +21,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Establece directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia solo composer.json y lock para instalar dependencias primero
-COPY composer.json composer.lock ./
-
-# Configura Git y limpia vendor
-RUN if [ -f artisan ]; then \
-      git config --global --add safe.directory /var/www/html && \
-      rm -rf vendor/ && \
-      composer install --no-dev --optimize-autoloader --no-interaction; \
-    fi
-
-# Copia el resto del proyecto
+# Copia todo el proyecto
 COPY . .
+
+# Configura Git y ejecuta Composer
+RUN git config --global --add safe.directory /var/www/html && \
+    composer install --no-dev --optimize-autoloader --no-interaction
 
 # Expone el puerto de Laravel
 EXPOSE 8000
