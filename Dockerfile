@@ -25,9 +25,10 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 
 # Configura Git y limpia vendor
-RUN git config --global --add safe.directory /var/www/html \
-    && rm -rf vendor/ \
-    && composer install --no-dev --optimize-autoloader --no-interaction
+RUN test -f artisan && \
+    git config --global --add safe.directory /var/www/html && \
+    rm -rf vendor/ && \
+    composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copia el resto del proyecto
 COPY . .
