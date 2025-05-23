@@ -7,6 +7,7 @@ use App\Http\Controllers\ConversacionesController;
 use App\Http\Controllers\ComentariosController;
 use App\Http\Controllers\NbaController;
 use App\Http\Controllers\GameCommentController;
+use App\Http\Controllers\NbaStatsController;
 
 // Rutas públicas
 Route::post('register', [AuthController::class, 'register']);
@@ -45,4 +46,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/nba/playoffs', [NbaController::class, 'playoffsBracket']);
 
+    Route::get('/nba/standings', [NbaStatsController::class, 'standings']);
+    Route::get('nba/team/{teamId}/players-stats', [NbaStatsController::class, 'teamStats'])
+    ->where('teamId', '.*');
 });
