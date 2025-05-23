@@ -1,34 +1,39 @@
-# Usamos una imagen base oficial de PHP 8.2 o superior con FPM
+# Imagen base oficial de PHP con FPM
 FROM php:8.2-fpm
 
-# Instalamos dependencias del sistema necesarias para Laravel
+# Instala dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
     git \
-    unzip
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Instalamos las extensiones de PHP necesarias para Laravel
+# Instala extensiones de PHP necesarias
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
-# Instalamos Composer desde la imagen oficial
+# Copia Composer desde la imagen oficial
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establecemos el directorio de trabajo en el contenedor
+# Establece directorio de trabajo
 WORKDIR /var/www/html
 
-# Copiamos el contenido del proyecto al contenedor
+# Copia solo composer.json y lock para instalar dependencias primero
+COPY composer.json composer.lock ./
+
+# Configura Git y limpia vendor
+RUN git config --global --add safe.directory /var/www/html \
+    && rm -rf vendor/ \
+    && composer install --no-dev --optimize-autoloader --no-interaction
+
+# Copia el resto del proyecto
 COPY . .
 
-# Instalamos las dependencias de Laravel
-RUN git config --global --add safe.directory /var/www/html \
- && composer install --no-dev --optimize-autoloader
-
-# Exponemos el puerto en el que Laravel escuchará
+# Expone el puerto de Laravel
 EXPOSE 8000
 
-# Ejecutamos el servidor de desarrollo de Laravel
+# Comando por defecto para desarrollo
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
