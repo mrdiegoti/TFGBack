@@ -83,15 +83,15 @@ class AdminController extends Controller
 
     public function updateConversation(Request $request, $id)
     {
-        $conversation = Conversacion::withCount('comments')->findOrFail($id);
+        $conversation = Conversacion::withCount('comentarios')->findOrFail($id);
 
-        if ($conversation->comments_count > 0) {
+        if ($conversation->comentarios_count > 0) {
             return response()->json(['error' => 'No se puede editar esta conversación porque tiene comentarios'], 403);
         }
 
         $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
+            'titulo' => 'required|string',
+            'descripcion' => 'required|string',
         ]);
         $conversation->update($data);
         return response()->json($conversation);
@@ -99,9 +99,10 @@ class AdminController extends Controller
 
     public function deleteConversation($id)
     {
-        $conversation = Conversacion::withCount('comments')->findOrFail($id);
+        $conversation = Conversacion::withCount('comentarios')->findOrFail($id);
 
-        if ($conversation->comments_count > 0) {
+        if ($conversation->comentarios_count > 0) {
+            echo "<script>alert('No se puede eliminar esta conversación porque tiene comentarios');</script>";
             return response()->json(['error' => 'No se puede eliminar esta conversación porque tiene comentarios'], 403);
         }
 
@@ -130,7 +131,7 @@ class AdminController extends Controller
     public function updateComment(Request $request, $id)
     {
         $comment = Comentario::findOrFail($id);
-        $data = $request->validate(['content' => 'required|string']);
+        $data = $request->validate(['texto' => 'required|string']);
         $comment->update($data);
         return response()->json($comment);
     }
