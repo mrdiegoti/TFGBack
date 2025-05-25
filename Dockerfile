@@ -1,35 +1,40 @@
-# Imagen base oficial de PHP con FPM
 FROM php:8.2-fpm
 
-# Instala dependencias del sistema
+# Instala dependencias necesarias
 RUN apt-get update && apt-get install -y \
+    build-essential \
     libpng-dev \
     libjpeg-dev \
-    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
-    git \
     unzip \
-    && rm -rf /var/lib/apt/lists/*
+    git \
+    curl \
+    libzip-dev \
+    mariadb-client \
+    nano \
+    vim \
+    && docker-php-ext-install pdo pdo_mysql zip mbstring exif pcntl
 
-# Instala extensiones de PHP necesarias
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
-
-# Copia Composer desde la imagen oficial
+# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establece directorio de trabajo
-WORKDIR /var/www/html
+# Establece el directorio de trabajo
+WORKDIR /var/www
 
-# Copia todo el proyecto
+# Copia el proyecto Laravel
 COPY . .
 
-# Configura Git y ejecuta Composer
-RUN git config --global --add safe.directory /var/www/html && \
-    composer install --no-dev --optimize-autoloader --no-interaction
+# Instala dependencias de Composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Expone el puerto de Laravel
-EXPOSE 8000
+# Permisos (ajusta según tus necesidades)
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage
 
-# Comando por defecto para desarrollo
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Expone el puerto (no necesario para php-fpm, pero útil si activas Laravel dev server)
+EXPOSE 9000
+
+# Comando por defecto: inicia PHP-FPM (se mantiene activo)
+CMD ["php-fpm"]
