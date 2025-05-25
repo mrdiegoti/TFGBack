@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# Instala dependencias
+# Instalar herramientas del sistema necesarias
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
@@ -9,27 +9,31 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     libssl-dev \
+    gcc \
+    make \
+    autoconf \
+    pkg-config \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
     && docker-php-ext-install pdo pdo_pgsql zip
 
-# Instala Composer
+# Instalar Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Establece el directorio de trabajo
+# Establecer directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia todo el código
+# Copiar archivos del proyecto
 COPY . .
 
-# Instala dependencias
+# Instalar dependencias PHP
 RUN composer install --optimize-autoloader --no-dev
 
-# Da permisos
+# Asignar permisos
 RUN chmod -R 775 storage bootstrap/cache
 
-# Expone el puerto HTTP de Octane
+# Puerto HTTP que usará Laravel Octane
 EXPOSE 8000
 
-# Comando de inicio
+# Comando de arranque
 CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000"]
