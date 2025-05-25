@@ -1,40 +1,36 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # Instala dependencias necesarias
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
     unzip \
     git \
     curl \
+    zip \
     libzip-dev \
+    libonig-dev \
+    libxml2-dev \
+    libpng-dev \
+    libjpeg-dev \
     mariadb-client \
-    nano \
-    vim \
     && docker-php-ext-install pdo pdo_mysql zip mbstring exif pcntl
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establece el directorio de trabajo
+# Establece directorio de trabajo
 WORKDIR /var/www
 
-# Copia el proyecto Laravel
+# Copia tu código
 COPY . .
 
-# Instala dependencias de Composer
+# Instala dependencias
 RUN composer install --no-dev --optimize-autoloader
 
-# Permisos (ajusta según tus necesidades)
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+# Asegura permisos
+RUN chmod -R 775 storage bootstrap/cache
 
-# Expone el puerto (no necesario para php-fpm, pero útil si activas Laravel dev server)
-EXPOSE 9000
+# Railway espera que se escuche en el puerto 8080
+EXPOSE 8080
 
-# Comando por defecto: inicia PHP-FPM (se mantiene activo)
-CMD ["php-fpm"]
+# Comando para ejecutar Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
