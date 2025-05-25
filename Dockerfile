@@ -1,39 +1,35 @@
-# FROM php:8.2-cli
+# Imagen base oficial de PHP con FPM
+FROM php:8.2-fpm
 
-# # Instalar herramientas del sistema necesarias
-# RUN apt-get update && apt-get install -y \
-#     libpq-dev \
-#     git \
-#     unzip \
-#     zip \
-#     curl \
-#     libzip-dev \
-#     libssl-dev \
-#     gcc \
-#     make \
-#     autoconf \
-#     pkg-config \
-#     && pecl install swoole \
-#     && docker-php-ext-enable swoole \
-#     && docker-php-ext-install pdo pdo_pgsql zip
+# Instala dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# # Instalar Composer
-# COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Instala extensiones de PHP necesarias
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-# # Establecer directorio de trabajo
-# WORKDIR /var/www/html
+# Copia Composer desde la imagen oficial
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# # Copiar archivos del proyecto
-# COPY . .
+# Establece directorio de trabajo
+WORKDIR /var/www/html
 
-# # Instalar dependencias PHP
-# RUN composer install --optimize-autoloader --no-dev
+# Copia todo el proyecto
+COPY . .
 
-# # Asignar permisos
-# RUN chmod -R 775 storage bootstrap/cache
+# Configura Git y ejecuta Composer
+RUN git config --global --add safe.directory /var/www/html && \
+    composer install --no-dev --optimize-autoloader --no-interaction
 
-# # Puerto HTTP que usará Laravel Octane
-# EXPOSE 8000
+# Expone el puerto de Laravel
+EXPOSE 8000
 
-# # Comando de arranque
-# CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000"]
+# Comando por defecto para desarrollo
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
