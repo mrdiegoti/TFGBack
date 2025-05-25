@@ -1,6 +1,6 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Instala extensiones necesarias para Laravel y PostgreSQL
+# Instala dependencias
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
@@ -8,25 +8,28 @@ RUN apt-get update && apt-get install -y \
     zip \
     curl \
     libzip-dev \
+    libssl-dev \
+    && pecl install swoole \
+    && docker-php-ext-enable swoole \
     && docker-php-ext-install pdo pdo_pgsql zip
 
 # Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Crea y entra al directorio del proyecto
+# Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia el código del proyecto
+# Copia todo el código
 COPY . .
 
-# Instala las dependencias de Laravel
+# Instala dependencias
 RUN composer install --optimize-autoloader --no-dev
 
-# Da permisos adecuados
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Da permisos
+RUN chmod -R 775 storage bootstrap/cache
 
-# Expone el puerto PHP-FPM
-EXPOSE 9000
+# Expone el puerto HTTP de Octane
+EXPOSE 8000
 
-CMD ["php-fpm"]
+# Comando de inicio
+CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000"]
