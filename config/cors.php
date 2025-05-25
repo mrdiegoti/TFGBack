@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://hoopsfever.vercel.app'],
+    'allowed_origins' => ['https://hoopsfever.up.railway.app', 'http://localhost:4200'],
 
     'allowed_origins_patterns' => [],
 
