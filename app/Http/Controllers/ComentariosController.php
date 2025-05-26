@@ -28,6 +28,10 @@ class ComentariosController extends Controller
             'conversacion_id' => $conversacion_id,
         ]);
 
+        $comentario->save();
+
+        $comentario->load('user');
+
         return response()->json(['message' => 'Comentario creado', 'comentario' => $comentario], 201);
     }
 
