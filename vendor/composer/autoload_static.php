@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9a4a42f13e0305014d90c023eba96d24
+class ComposerStaticInitefa7b14ad79d708682982c55d7a835dc
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -559,14 +559,19 @@ class ComposerStaticInit9a4a42f13e0305014d90c023eba96d24
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Factories\\ConfigurationFactory' => __DIR__ . '/..' . '/laravel/pint/app/Factories/ConfigurationFactory.php',
         'App\\Factories\\ConfigurationResolverFactory' => __DIR__ . '/..' . '/laravel/pint/app/Factories/ConfigurationResolverFactory.php',
+        'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\ComentariosController' => __DIR__ . '/../..' . '/app/Http/Controllers/ComentariosController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\ConversacionesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConversacionesController.php',
+        'App\\Http\\Controllers\\GameCommentController' => __DIR__ . '/../..' . '/app/Http/Controllers/GameCommentController.php',
+        'App\\Http\\Controllers\\NbaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NbaController.php',
+        'App\\Http\\Controllers\\NbaStatsController' => __DIR__ . '/../..' . '/app/Http/Controllers/NbaStatsController.php',
         'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
+        'App\\Http\\Middleware\\IsAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/IsAdmin.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
@@ -578,6 +583,7 @@ class ComposerStaticInit9a4a42f13e0305014d90c023eba96d24
         'App\\Models\\Comentario' => __DIR__ . '/../..' . '/app/Models/Comentario.php',
         'App\\Models\\Conversacion' => __DIR__ . '/../..' . '/app/Models/Conversacion.php',
         'App\\Models\\Foro' => __DIR__ . '/../..' . '/app/Models/Foro.php',
+        'App\\Models\\GameComment' => __DIR__ . '/../..' . '/app/Models/GameComment.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Output\\Concerns\\InteractsWithSymbols' => __DIR__ . '/..' . '/laravel/pint/app/Output/Concerns/InteractsWithSymbols.php',
         'App\\Output\\ProgressOutput' => __DIR__ . '/..' . '/laravel/pint/app/Output/ProgressOutput.php',
@@ -6951,9 +6957,9 @@ class ComposerStaticInit9a4a42f13e0305014d90c023eba96d24
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9a4a42f13e0305014d90c023eba96d24::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9a4a42f13e0305014d90c023eba96d24::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9a4a42f13e0305014d90c023eba96d24::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitefa7b14ad79d708682982c55d7a835dc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitefa7b14ad79d708682982c55d7a835dc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitefa7b14ad79d708682982c55d7a835dc::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -41,7 +41,7 @@ class ComentariosController extends Controller
         $comentario = Comentario::findOrFail($id);
 
         if ($comentario->user_id !== Auth::id()) {
-            return response()->json(['error' => 'No tienes permiso para editar este comentario.'], 403);
+            return response()->json(['error' => 'No tienes permiso para editar este comentario, no eres el propietario'], 403);
         }
 
         $request->validate([
@@ -59,7 +59,7 @@ class ComentariosController extends Controller
         $comentario = Comentario::findOrFail($id);
 
         if ($comentario->user_id !== Auth::id()) {
-            return response()->json(['error' => 'No tienes permiso para eliminar este comentario.'], 403);
+            return response()->json(['error' => 'No tienes permiso para eliminar este comentario, no eres el propietario'], 403);
         }
 
         $comentario->delete();
